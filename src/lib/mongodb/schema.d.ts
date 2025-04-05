@@ -11,6 +11,7 @@ export type User = {
     lastname: string;
   };
   uploads: ObjectId[];
+  createdAt: Date;
 };
 
 export type Subject = {

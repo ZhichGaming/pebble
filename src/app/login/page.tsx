@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { getTodos, login, signup } from "@/lib/login/login";
+import { getSubjects, login, signup } from "@/lib/login/login";
 
 export default function LoginPage() {
   useEffect(() => {
-    getTodos();
+    // getSubjects();
   });
 
   return (
