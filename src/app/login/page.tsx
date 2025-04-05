@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { getSubjects, login, signup } from "@/lib/login/login";
+import { getSubjects, login, signup } from "@/lib/account/actions";
 
 export default function LoginPage() {
   useEffect(() => {
