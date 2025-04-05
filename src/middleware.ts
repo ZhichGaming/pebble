@@ -1,7 +1,8 @@
 import { updateSession } from "@/lib/mongodb/main";
 
 export async function middleware() {
-  return await updateSession();
+  // return await updateSession();
+  return;
 }
 
 export const config = {

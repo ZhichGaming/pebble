@@ -31,3 +31,15 @@ export async function signup(formData: FormData) {
   redirect("/");
 }
 
+export async function getTodos() {
+  const subjects = await client
+    .db("public")
+    .collection("subjects")
+    .find({})
+    .toArray();
+
+  console.log(subjects);
+
+  return;
+}
+
