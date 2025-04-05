@@ -30,7 +30,7 @@ export default function List({ concepts }: { concepts: Concept[] }) {
 
 			<div className="sticky top-3 w-px bg-gray-300 mx-8 my-3"></div>
 
-			<div className="sticky top-0 w-64">
+			<div className="sticky top-0 w-full">
 				{concepts?.map((concept) => (
 					<div
 						key={concept.toString()}
