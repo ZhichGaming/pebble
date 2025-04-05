@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Concept, Subject, Teacher } from '@/lib/mongodb/schema';
 import { getSubjects } from '@/lib/subjects/actions';
+import Link from 'next/link';
 
 // export default function ChapterGrid() {
 // 	const router = useRouter();
@@ -34,10 +35,12 @@ export default function StudyGuideList({
 	}) {
 	const [subjectObj, setSubject] = useState<Subject | null>(null);
 	const [concepts, setConcepts] = useState<Concept[] | null>(null);
+	const [subjectAndTeacher, setSubjectAndTeacher] = useState<{ subject: string, teacher: string }>();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const { subject, teacher } = await params;
+			setSubjectAndTeacher({ subject, teacher });
 			console.log(subject, teacher);
 
 			const subjects = await getSubjects();
@@ -74,6 +77,9 @@ export default function StudyGuideList({
 					</div>
 				))}
 			</div>
+			<Link href={`${subjectAndTeacher?.teacher}/new`} className="fixed bottom-0 right-0 m-4 inline-block bg-[#595F39] text-white px-4 py-2 rounded-full">
+				+
+			</Link>
 		</div>
 	);
 }
