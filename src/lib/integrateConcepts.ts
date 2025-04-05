@@ -2,12 +2,13 @@ import requestAI from "./ai";
 import { Concept } from "./mongodb/schema";
 
 export default async function integrateConcepts(newConcepts: Concept[], existingConcepts: Concept[]): Promise<Concept[]> {
-  const prompt = `You will be given a list of existing concepts and a list of new concepts and you will return a JSON array, with the fields "concept" and "explanation".
+  const prompt = `You will be given a list of existing concepts and a list of new concepts and you will return a JSON array, with the fields: "concept", "explanation" and "examples", with examples being an array.
   
   Instructions:
   - Read through the existing concepts and the new concepts.
   - Integrate the new concepts into the existing concepts.
   - If there are similar concepts, merge them into the most appropriate one.
+	- Integrate the new examples into the existing examples if relevant.
   - Output your response in JSON.
   - Keep it concise.
   - Stick to the facts.

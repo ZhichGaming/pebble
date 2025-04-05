@@ -24,8 +24,9 @@ export type Subject = {
 };
 
 export type Concept = {
-  name: string;
-  images: ObjectId[];
+  concept: string;
+  explanation: string;
+  examples: string[];
 };
 
 export type Image = {
