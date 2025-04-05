@@ -35,7 +35,7 @@ export default function NavigationBar() {
 						<div className="text-xl font-bold text-[#595F39]">Pebble</div>
 					</div>
 					{user ? <div>
-						<button className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2" onClick={logout}>Logout</button>
+						<button className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2 cursor-pointer" onClick={logout}>Logout</button>
 					</div>:
 					<div >
 						<Link className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2" href="./login">Login</Link>
