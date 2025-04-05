@@ -55,7 +55,7 @@ export default function StudyGuideList({
       }
 
       const newTeacherObjects = newSubjectObjects?.teachers.find(
-        (t) => encodeURIComponent(t.name) == encodeURIComponent(teacher)
+        (t) => encodeURIComponent(t.name) == teacher
       );
 
       if (!newTeacherObjects) {
@@ -70,7 +70,7 @@ export default function StudyGuideList({
     };
 
     fetchData();
-  });
+  }, []);
 
   return (
     <div className="p-4">
