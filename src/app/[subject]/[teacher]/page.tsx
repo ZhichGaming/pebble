@@ -1,4 +1,4 @@
-import { Subject } from "@/lib/mongodb/schema";
+import { Concept, Subject } from "@/lib/mongodb/schema";
 import List from "./List";
 import { getConcepts, getSubjects } from "@/lib/subjects/actions";
 
@@ -42,6 +42,14 @@ export default async function StudyGuideList({
     (t) => encodeURIComponent(t.name) == teacher
   )[0];
 
-  return <List conceptNames={selectedTeacher.concepts} />;
+  const concepts = [];
+
+  for (const x of selectedTeacher.concepts) {
+    concepts.push(JSON.parse(await getConcepts(x)) as Concept);
+  }
+
+  console.log(concepts);
+
+  return <List concepts={concepts} />;
 }
 
