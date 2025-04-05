@@ -9,6 +9,7 @@ import {
   SignupFormSchema,
 } from "@/lib/mongodb/definitions";
 import bcrypt from "bcryptjs";
+import { createSession, deleteSession } from "../mongodb/session";
 
 export async function login(state: FormState, formData: FormData) {
   const validatedFields = LoginFormSchema.safeParse({
@@ -28,17 +29,17 @@ export async function login(state: FormState, formData: FormData) {
     .findOne({ email: validatedFields.data.email });
 
   if (!user) {
-    return;
+    return {
+      message: "No such user exists",
+    };
   }
 
   const salt = user.salt;
-  const hashedPassword = await bcrypt.hash(
-    validatedFields.data?.password,
-    salt
-  );
+  const hashedPassword = bcrypt.hashSync(validatedFields.data.password + salt);
 
-  console.log(hashedPassword, user.password);
   if (hashedPassword == user.password) console.log("password correct");
+
+  createSession(user._id);
 
   revalidatePath("/home", "layout");
   redirect("/home");
@@ -61,40 +62,27 @@ export async function signup(state: FormState, formData: FormData) {
     };
   }
 
-  const hashedPassword = await bcrypt.hash(validatedFields.data.password, salt);
+  const hashedPassword = bcrypt.hashSync(validatedFields.data.password + salt);
 
-  const error = await client
-    .db("auth")
-    .collection("users")
-    .insertOne({
-      email: validatedFields.data.email,
-      password: hashedPassword,
-      salt: salt,
-      identity: {
-        username: validatedFields.data.username,
-        firstname: validatedFields.data.firstname,
-        lastname: validatedFields.data.lastname,
-      },
-      uploads: [],
-      createdAt: new Date(),
-    });
+  const user = {
+    email: validatedFields.data.email,
+    password: hashedPassword,
+    salt: salt,
+    identity: {
+      username: validatedFields.data.username,
+      firstname: validatedFields.data.firstname,
+      lastname: validatedFields.data.lastname,
+    },
+    uploads: [],
+    createdAt: new Date(),
+  };
 
-  console.log(error);
+  const response = await client.db("auth").collection("users").insertOne(user);
+
+  createSession(response.insertedId);
 
   revalidatePath("/home", "layout");
   redirect("/home");
-}
-
-export async function getSubjects() {
-  const subjects = await client
-    .db("public")
-    .collection("subjects")
-    .find({})
-    .toArray();
-
-  console.log("subjects: ", subjects);
-
-  return;
 }
 
 function generateSalt(length: number) {
@@ -107,3 +95,6 @@ function generateSalt(length: number) {
   return result;
 }
 
+export function logout() {
+  deleteSession();
+}

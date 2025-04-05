@@ -1,8 +1,7 @@
-import { updateSession } from "@/lib/mongodb/main";
+import { updateSession } from "@/lib/mongodb/session";
 
 export async function middleware() {
-  // return await updateSession();
-  return;
+  return await updateSession();
 }
 
 export const config = {
