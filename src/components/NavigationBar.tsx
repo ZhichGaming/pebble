@@ -13,8 +13,7 @@ export default function NavigationBar() {
 
 	useEffect(() => {
 		async function checkUser() {
-			setUser(await getUser());
-			console.log(await getUser());
+			setUser(JSON.parse(await getUser()));
 		}
 
 		checkUser();
