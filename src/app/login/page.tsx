@@ -39,7 +39,7 @@ export default function LoginPage() {
 					</div>
 					<button
 						type="submit"
-						className="w-full px-4 py-2 text-white bg-[#595F39] rounded-md hover:bg[#595F39] cursor-pointer"
+						className="w-full px-4 py-2 text-white bg-[#595F39] rounded-md cursor-pointer"
             // formAction={login} // TODO: Fix this
 					>
 						Sign In
