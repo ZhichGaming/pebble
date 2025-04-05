@@ -12,8 +12,12 @@ import {
 import client from "@/lib/mongodb/client";
 import { createSession, deleteSession } from "@/lib/mongodb/session";
 import { cookies } from "next/headers";
+import { ClientUser } from "../mongodb/schema";
+import { revalidatePath } from "next/cache";
 
 export async function login(state: FormState, formData: FormData) {
+  await deleteSession();
+
   const validatedFields = LoginFormSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -39,21 +43,23 @@ export async function login(state: FormState, formData: FormData) {
   }
 
   const salt = user.salt;
-  const hashedPassword = bcrypt.hashSync(validatedFields.data.password + salt);
 
-  if (hashedPassword !== user.password) {
+  if (
+    !(await bcrypt.compare(validatedFields.data.password + salt, user.password))
+  ) {
     return {
       message: "Wrong email or password",
       payload: formData,
     };
   }
 
-  createSession({
+  await createSession({
     _id: user._id,
     email: user.email,
     identity: user.identity,
   });
 
+  revalidatePath("/home", "layout");
   redirect("/home");
 }
 
@@ -111,9 +117,9 @@ export async function getUser() {
   const user = cookieStore.get("user")?.value;
 
   if (!user) {
-    return;
+    redirect("/login");
   }
 
-  return JSON.parse(user);
+  return JSON.parse(user) as ClientUser;
 }
 
