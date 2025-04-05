@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 export type User = {
-  _id?: ObjectId;
+  _id: ObjectId;
   email: string;
   password: string;
   salt: string;
@@ -22,7 +22,7 @@ export type Subject = {
 
 export type Teacher = {
   name: string;
-  concepts: ObjectId[];
+  concepts: string[];
 };
 
 export type Concept = {

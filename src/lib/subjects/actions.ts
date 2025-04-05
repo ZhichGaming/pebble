@@ -12,3 +12,13 @@ export async function getSubjects() {
   return subjects;
 }
 
+export async function getConcepts(name: string) {
+  const subjects = await client
+    .db("public")
+    .collection("concepts")
+    .find({ name })
+    .toArray();
+
+  return subjects;
+}
+
