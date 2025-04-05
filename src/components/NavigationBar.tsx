@@ -12,7 +12,13 @@ export default function NavigationBar() {
 
 	useEffect(() => {
 		async function checkUser() {
-			setUser(JSON.parse(await getUser()));
+			const user = await getUser();
+
+			if (!user) {
+				return;
+			}
+
+			setUser(JSON.parse(user));
 		}
 
 		checkUser();
@@ -26,8 +32,7 @@ export default function NavigationBar() {
 						<img src="../favicon.ico" alt="" className='h-6 mr-4' />
 						<div className="text-xl font-bold text-[#595F39]">Pebble</div>
 					</div>
-					{user?.identity ? <div>
-						<p>Hey, {user.identity?.username}</p>
+					{user ? <div>
 						<button className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2" onClick={logout}>Logout</button>
 					</div>:
 					<div >
