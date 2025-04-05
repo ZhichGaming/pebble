@@ -1,14 +1,17 @@
 "use server";
 
-import client from "@/lib/mongodb/client";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import bcrypt from "bcryptjs";
+import { generateSalt } from "./utils";
+
 import {
   FormState,
   LoginFormSchema,
   SignupFormSchema,
 } from "@/lib/mongodb/definitions";
-import bcrypt from "bcryptjs";
+import client from "@/lib/mongodb/client";
+import { createSession, deleteSession } from "@/lib/mongodb/session";
+import { cookies } from "next/headers";
 
 export async function login(state: FormState, formData: FormData) {
   const validatedFields = LoginFormSchema.safeParse({
@@ -19,6 +22,7 @@ export async function login(state: FormState, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      payload: formData,
     };
   }
 
@@ -28,19 +32,28 @@ export async function login(state: FormState, formData: FormData) {
     .findOne({ email: validatedFields.data.email });
 
   if (!user) {
-    return;
+    return {
+      message: "No such user exists",
+      payload: formData,
+    };
   }
 
   const salt = user.salt;
-  const hashedPassword = await bcrypt.hash(
-    validatedFields.data?.password,
-    salt
-  );
+  const hashedPassword = bcrypt.hashSync(validatedFields.data.password + salt);
 
-  console.log(hashedPassword, user.password);
-  if (hashedPassword == user.password) console.log("password correct");
+  if (hashedPassword !== user.password) {
+    return {
+      message: "Wrong email or password",
+      payload: formData,
+    };
+  }
 
-  revalidatePath("/home", "layout");
+  createSession({
+    _id: user._id,
+    email: user.email,
+    identity: user.identity,
+  });
+
   redirect("/home");
 }
 
@@ -58,52 +71,49 @@ export async function signup(state: FormState, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      payload: formData,
     };
   }
 
-  const hashedPassword = await bcrypt.hash(validatedFields.data.password, salt);
+  const hashedPassword = bcrypt.hashSync(validatedFields.data.password + salt);
 
-  const error = await client
-    .db("auth")
-    .collection("users")
-    .insertOne({
-      email: validatedFields.data.email,
-      password: hashedPassword,
-      salt: salt,
-      identity: {
-        username: validatedFields.data.username,
-        firstname: validatedFields.data.firstname,
-        lastname: validatedFields.data.lastname,
-      },
-      uploads: [],
-      createdAt: new Date(),
-    });
+  const user = {
+    email: validatedFields.data.email,
+    password: hashedPassword,
+    salt: salt,
+    identity: {
+      username: validatedFields.data.username,
+      firstname: validatedFields.data.firstname,
+      lastname: validatedFields.data.lastname,
+    },
+    uploads: [],
+    createdAt: new Date(),
+  };
 
-  console.log(error);
+  const response = await client.db("auth").collection("users").insertOne(user);
 
-  revalidatePath("/home", "layout");
+  await createSession({
+    _id: response.insertedId,
+    email: user.email,
+    identity: user.identity,
+  });
+
   redirect("/home");
 }
 
-export async function getSubjects() {
-  const subjects = await client
-    .db("public")
-    .collection("subjects")
-    .find({})
-    .toArray();
-
-  console.log("subjects: ", subjects);
-
-  return;
+export async function logout() {
+  await deleteSession();
 }
 
-function generateSalt(length: number) {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+export async function getUser() {
+  const cookieStore = await cookies();
+
+  const user = cookieStore.get("user")?.value;
+
+  if (!user) {
+    return;
   }
-  return result;
+
+  return JSON.parse(user);
 }
 

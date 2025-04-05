@@ -36,3 +36,8 @@ export type Image = {
   imageData: string;
 };
 
+export type ClientUser = Omit<
+  User,
+  "password" | "salt" | "uploads" | "createdAt"
+>;
+
