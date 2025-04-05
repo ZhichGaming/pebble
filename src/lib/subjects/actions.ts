@@ -1,6 +1,14 @@
+"use server";
+
 import client from "../mongodb/client";
 
-export function getSubjects() {
-  const subjects = client.db("public").collection("subjects").find({});
+export async function getSubjects() {
+  const subjects = await client
+    .db("public")
+    .collection("subjects")
+    .find({})
+    .toArray();
+
+  return subjects;
 }
 
