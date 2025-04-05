@@ -1,113 +1,42 @@
+"use client";
 
-import { Subject, User } from "@/lib/mongodb/schema";
-import { ObjectId } from "mongodb";
+import { ClientUser, Subject, User } from "@/lib/mongodb/schema";
 import React from "react";
 import Image from 'next/image'
 import userImagePath from "@/assets/user.png";
 import cubeImagePath from "@/assets/3d-cube.png";
 import Link from "next/link";
+import { getUser } from "@/lib/account/actions";
+import { getSubjects } from "@/lib/subjects/actions";
 
 export default function HomePage() {
-  const user: User = {
-		_id: new ObjectId(),
-		email: "user1@example.com",
-		password: "password1",
-		salt: "salt1",
-		identity: {
-			username: "user1",
-			firstname: "John",
-			lastname: "Doe",
-		},
-		uploads: [new ObjectId(), new ObjectId(), new ObjectId()],
-		createdAt: new Date(),
-	};
+  const [user, setUser] = React.useState<ClientUser | null>(null);
+  const [subjects, setSubjects] = React.useState<Subject[]>([]);
 
-  const subjects: Subject[] = [
-    {
-      _id: new ObjectId(),
-      name: "Mathematics",
-      teachers: [{
-        name: "Mr. Smith",
-        concepts: [],
-      }, {
-        name: "Jeb",
-        concepts: [],
-      }, {
-        name: "Mr. Hoj",
-        concepts: [],
-      }],
-    },{
-      _id: new ObjectId(),
-      name: "Mathematics",
-      teachers: [{
-        name: "Mr. Smith",
-        concepts: [],
-      }, {
-        name: "Jeb",
-        concepts: [],
-      }, {
-        name: "Mr. Hoj",
-        concepts: [],
-      }],
-    },
-		{
-      _id: new ObjectId(),
-      name: "Mathematics",
-      teachers: [{
-        name: "Mr. Smith",
-        concepts: [],
-      }, {
-        name: "Jeb",
-        concepts: [],
-      }, {
-        name: "Mr. Hoj",
-        concepts: [],
-      }],
-    },
-		{
-      _id: new ObjectId(),
-      name: "Mathematics",
-      teachers: [{
-        name: "Mr. Smith",
-        concepts: [],
-      }, {
-        name: "Jeb",
-        concepts: [],
-      }, {
-        name: "Mr. Hoj",
-        concepts: [],
-      }],
-    },
-		{
-      _id: new ObjectId(),
-      name: "Mathematics",
-      teachers: [{
-        name: "Mr. Smith",
-        concepts: [],
-      }, {
-        name: "Jeb",
-        concepts: [],
-      }, {
-        name: "Mr. Hoj",
-        concepts: [],
-      }],
-    },
-		{
-      _id: new ObjectId(),
-      name: "Mathematics",
-      teachers: [{
-        name: "Mr. Smith",
-        concepts: [],
-      }, {
-        name: "Jeb",
-        concepts: [],
-      }, {
-        name: "Mr. Hoj",
-        concepts: [],
-      }],
-    },
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      const data = await getUser();
 
-  ];
+      if (!data) {
+        return;
+      }
+
+      setUser(data);
+    };
+
+    const fetchSubjects = async () => {
+      const data = await getSubjects();
+
+      if (!data) {
+        return;
+      }
+
+      setSubjects(data as Subject[]);
+    };
+
+    fetchUser();
+    fetchSubjects();
+  }, []);
 
   return (
 		<div className="flex flex-col items-center justify-center w-screen h-screen">
@@ -151,11 +80,11 @@ export default function HomePage() {
 				<div className="sticky top-0 flex-1 w-64">
 					<h2 className="text-xl font-bold mb-4">Your Uploads</h2>
 					<div className="grid grid-cols-2 gap-4">
-						{user.uploads.map((upload) => (
+						{/* {user.uploads.map((upload) => (
 							<div key={upload.toString()} className="bg-white rounded-lg shadow p-5 mb-4 text-[#1B1B1B]">
 								<p>{upload.toString()}</p>
 							</div>
-						))}
+						))} */}
 					</div>
 				</div>
 			</div>
