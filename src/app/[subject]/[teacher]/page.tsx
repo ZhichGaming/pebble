@@ -42,8 +42,6 @@ export default async function StudyGuideList({
     (t) => encodeURIComponent(t.name) == teacher
   )[0];
 
-  const concepts = await getConcepts(selectedTeacher.concepts);
-
-  return <List concepts={JSON.parse(concepts)} />;
+  return <List conceptNames={selectedTeacher.concepts} />;
 }
 

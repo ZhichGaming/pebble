@@ -1,14 +1,23 @@
 "use client";
 
 import { Concept } from "@/lib/mongodb/schema";
+import { getConcepts } from "@/lib/subjects/actions";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function List({ concepts }: { concepts: Concept[] }) {
+export default function List({ conceptNames }: { conceptNames: string[] }) {
+  const [concepts, setConcepts] = useState<Concept[]>();
+
   const [subjectAndTeacher, setSubjectAndTeacher] = useState<{
     subject: string;
     teacher: string;
   }>();
+
+  useEffect(() => {
+    (async () => {
+      setConcepts(JSON.parse(await getConcepts(conceptNames)) as Concept[]);
+    })();
+  }, []);
 
   return (
     <div className="p-4">

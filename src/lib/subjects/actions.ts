@@ -13,14 +13,15 @@ export async function getSubjects() {
 }
 
 export async function getConcepts(names: string[]) {
-  const concepts = names.map(async (name) => {
-    console.log(name);
-    return await client
-      .db("public")
-      .collection("concepts")
-      .find({ name: name })
-      .toArray();
-  });
+  const concepts = Promise.all(
+    names.map(async (name) => {
+      return await client
+        .db("public")
+        .collection("concepts")
+        .find({ name })
+        .toArray();
+    })
+  );
 
   return JSON.stringify(concepts);
 }
