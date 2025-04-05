@@ -1,4 +1,3 @@
-import { Blob } from "buffer";
 import { ObjectId } from "mongodb";
 
 export type User = {
@@ -30,6 +29,6 @@ export type Concept = {
 
 export type Image = {
   _id: ObjectId[];
-  imageData: Blob;
+  imageData: string;
 };
 
