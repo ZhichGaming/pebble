@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { User } from "@/lib/mongodb/schema";
 import { LoginFormSchema, SignupFormSchema } from "@/lib/mongodb/definitions";
-import { argon2i, hash } from "argon2";
+import { hash } from "argon2";
 
 export async function login(formData: FormData) {
   const validatedFields = LoginFormSchema.safeParse({
@@ -13,16 +13,16 @@ export async function login(formData: FormData) {
     password: formData.get("password"),
   });
 
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
+  // if (!validatedFields.success) {
+  //   return {
+  //     errors: validatedFields.error.flatten().fieldErrors,
+  //   };
+  // }
 
   const user = (await client
     .db("auth")
     .collection("users")
-    .findOne({ email: validatedFields.data.username })) as User;
+    .findOne({ email: validatedFields.data?.username })) as User;
 
   console.log("user: ", user);
 
