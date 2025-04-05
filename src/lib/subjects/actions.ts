@@ -12,13 +12,16 @@ export async function getSubjects() {
   return JSON.stringify(subjects);
 }
 
-export async function getConcepts(name: string[]) {
-  const subjects = await client
-    .db("public")
-    .collection("concepts")
-    .find({ ...name })
-    .toArray();
+export async function getConcepts(names: string[]) {
+  const concepts = names.map(async (name) => {
+    console.log(name);
+    return await client
+      .db("public")
+      .collection("concepts")
+      .find({ name: name })
+      .toArray();
+  });
 
-  return JSON.stringify(subjects);
+  return JSON.stringify(concepts);
 }
 
