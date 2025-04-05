@@ -29,13 +29,13 @@ export default function NavigationBar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Image src={Logo} alt="" className="h-6 mr-4 w-auto" />
+            <img src="../favicon.ico" alt="" className="h-6 mr-4" />
             <div className="text-xl font-bold text-[#595F39]">Pebble</div>
           </div>
           {user ? (
             <div>
               <button
-                className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2"
+                className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2 cursor-pointer"
                 onClick={logout}
               >
                 Logout
