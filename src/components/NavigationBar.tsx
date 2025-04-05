@@ -13,8 +13,8 @@ export default function NavigationBar() {
 						<div className="text-xl font-bold text-[#595F39]">Pebble</div>
 					</div>
 				<div>
-					<Link className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2" href="./login">Login</Link>
-					<Link className="border-2 border-[#595F39] rounded-lg py-1.5 px-3 mx-2" href="./signup">Sign up</Link>
+					<Link className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2" href="/login">Login</Link>
+					<Link className="border-2 border-[#595F39] rounded-lg py-1.5 px-3 mx-2" href="/signup">Sign up</Link>
 				</div>
 				</div>
 			</div>

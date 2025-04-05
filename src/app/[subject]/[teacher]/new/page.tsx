@@ -35,7 +35,7 @@ export default function NewPage() {
         <SingleFileUploader file={file} setFile={setFile} />
         <button
           onClick={onSubmit}
-          className={`mt-8 w-full bg-primary text-white py-4 px-6 rounded-lg font-semibold hover:bg-accent transition ${
+          className={`mt-8 w-full border-2 border-[#595F39] bg-[#595F39] text-white py-4 px-6 rounded-lg font-semibold hover:bg-white hover:text-[#595F39] transition ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           disabled={loading}
