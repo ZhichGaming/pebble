@@ -2,15 +2,18 @@
 
 import { login } from "@/lib/account/actions";
 import Link from "next/link";
+import { useActionState } from "react";
 
 export default function LoginPage() {
+  const [state, action, pending] = useActionState(login, undefined);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#E4E4DE]">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Sign In
         </h2>
-        <form className="space-y-4">
+        <form className="space-y-4" action={action}>
           <div>
             <label
               htmlFor="email"
@@ -26,6 +29,7 @@ export default function LoginPage() {
               placeholder="Enter your email"
               required
             />
+            {state?.errors?.email && <p>{state.errors.email}</p>}
           </div>
           <div>
             <label
@@ -42,11 +46,21 @@ export default function LoginPage() {
               placeholder="Enter your password"
               required
             />
+            {state?.errors?.password && (
+              <div>
+                <p>Password must:</p>
+                <ul>
+                  {state.errors.password.map((error) => (
+                    <li key={error}>- {error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           <button
             type="submit"
+            disabled={pending}
             className="w-full px-4 py-2 text-white bg-[#595F39] rounded-md cursor-pointer"
-            formAction={login} // TODO: Fix this
           >
             Sign In
           </button>
