@@ -42,7 +42,7 @@ export default function SignupPage() {
               id="firstname"
               name="firstname"
               className="w-full px-4 py-2 mt-1 border rounded-md"
-              placeholder="Enter your firstname"
+              placeholder="Enter your first name"
             />
             {state?.errors?.firstname && <p>{state.errors.firstname}</p>}
           </div>
@@ -58,7 +58,7 @@ export default function SignupPage() {
               id="lastname"
               name="lastname"
               className="w-full px-4 py-2 mt-1 border rounded-md"
-              placeholder="Enter your lastname"
+              placeholder="Enter your last name"
             />
             {state?.errors?.lastname && <p>{state.errors.lastname}</p>}
           </div>
