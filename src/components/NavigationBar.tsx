@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import "@/components/globals.css";
 import { getUser, logout } from '@/lib/account/actions';
 import { ClientUser } from '@/lib/mongodb/schema';
-import { deleteSession } from '@/lib/mongodb/session';
 
 
 export default function NavigationBar() {
@@ -13,8 +12,7 @@ export default function NavigationBar() {
 
 	useEffect(() => {
 		async function checkUser() {
-			setUser(await getUser());
-			console.log(await getUser());
+			setUser(JSON.parse(await getUser()));
 		}
 
 		checkUser();
