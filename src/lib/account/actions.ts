@@ -41,7 +41,12 @@ export async function login(state: FormState, formData: FormData) {
   const salt = user.salt;
   const hashedPassword = bcrypt.hashSync(validatedFields.data.password + salt);
 
-  if (hashedPassword == user.password) console.log("password correct");
+  if (hashedPassword !== user.password) {
+    return {
+      message: "Wrong email or password",
+      payload: formData,
+    };
+  }
 
   createSession({
     _id: user._id,
