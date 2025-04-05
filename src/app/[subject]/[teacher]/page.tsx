@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from 'react';
 import { Concept, Subject, Teacher } from '@/lib/mongodb/schema';
 import { getSubjects } from '@/lib/subjects/actions';
