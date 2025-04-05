@@ -9,7 +9,7 @@ export async function getSubjects() {
     .find({})
     .toArray();
 
-  return subjects;
+  return JSON.stringify(subjects);
 }
 
 export async function getConcepts(name: string[]) {
@@ -19,6 +19,6 @@ export async function getConcepts(name: string[]) {
     .find({ ...name })
     .toArray();
 
-  return subjects;
+  return JSON.stringify(subjects);
 }
 
