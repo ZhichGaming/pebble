@@ -1,15 +1,17 @@
 "use server";
 
-import client from "@/lib/mongodb/client";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import bcrypt from "bcryptjs";
+import { generateSalt } from "./utils";
+
 import {
   FormState,
   LoginFormSchema,
   SignupFormSchema,
 } from "@/lib/mongodb/definitions";
-import bcrypt from "bcryptjs";
-import { createSession, deleteSession } from "../mongodb/session";
+import client from "@/lib/mongodb/client";
+import { createSession, deleteSession } from "@/lib/mongodb/session";
+import { cookies } from "next/headers";
 
 export async function login(state: FormState, formData: FormData) {
   const validatedFields = LoginFormSchema.safeParse({
@@ -20,6 +22,7 @@ export async function login(state: FormState, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      payload: formData,
     };
   }
 
@@ -31,6 +34,7 @@ export async function login(state: FormState, formData: FormData) {
   if (!user) {
     return {
       message: "No such user exists",
+      payload: formData,
     };
   }
 
@@ -39,9 +43,12 @@ export async function login(state: FormState, formData: FormData) {
 
   if (hashedPassword == user.password) console.log("password correct");
 
-  createSession(user._id);
+  createSession({
+    _id: user._id,
+    email: user.email,
+    identity: user.identity,
+  });
 
-  revalidatePath("/home", "layout");
   redirect("/home");
 }
 
@@ -59,6 +66,7 @@ export async function signup(state: FormState, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      payload: formData,
     };
   }
 
@@ -79,22 +87,28 @@ export async function signup(state: FormState, formData: FormData) {
 
   const response = await client.db("auth").collection("users").insertOne(user);
 
-  createSession(response.insertedId);
+  await createSession({
+    _id: response.insertedId,
+    email: user.email,
+    identity: user.identity,
+  });
 
-  revalidatePath("/home", "layout");
   redirect("/home");
 }
 
-function generateSalt(length: number) {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
+export async function logout() {
+  await deleteSession();
 }
 
-export function logout() {
-  deleteSession();
+export async function getUser() {
+  const cookieStore = await cookies();
+
+  const user = cookieStore.get("user")?.value;
+
+  if (!user) {
+    return;
+  }
+
+  return JSON.parse(user);
 }
+
