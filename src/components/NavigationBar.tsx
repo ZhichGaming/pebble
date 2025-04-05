@@ -3,9 +3,14 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import "@/components/globals.css";
+<<<<<<< Updated upstream
 import { getUser, logout } from '@/lib/account/actions';
 import { ClientUser } from '@/lib/mongodb/schema';
 import { deleteSession } from '@/lib/mongodb/session';
+=======
+import { getUser } from '@/lib/account/actions';
+import { ClientUser } from '@/lib/mongodb/schema';
+>>>>>>> Stashed changes
 
 
 export default function NavigationBar() {
@@ -13,7 +18,12 @@ export default function NavigationBar() {
 
 	useEffect(() => {
 		async function checkUser() {
+<<<<<<< Updated upstream
 			setUser(JSON.parse(await getUser()));
+=======
+			setUser(await getUser());
+			console.log(await getUser());
+>>>>>>> Stashed changes
 		}
 
 		checkUser();
@@ -33,7 +43,11 @@ export default function NavigationBar() {
 					</div>:
 					<div>
 						<p>Hey, {user.identity.username}</p>
+<<<<<<< Updated upstream
 						<button className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2" onClick={logout}>Logout</button>
+=======
+						<button className="border-2 border-[#595F39] rounded-lg bg-[#595F39] text-[#E4E4DE] py-1.5 px-3 mx-2">Logout</button>
+>>>>>>> Stashed changes
 
 					</div>}
 					
