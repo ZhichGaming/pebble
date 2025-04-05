@@ -5,6 +5,7 @@ import React from "react";
 import Image from 'next/image'
 import userImagePath from "@/assets/user.png";
 import cubeImagePath from "@/assets/3d-cube.png";
+import Link from "next/link";
 
 export default function HomePage() {
   const user: User = {
@@ -134,9 +135,9 @@ export default function HomePage() {
 							</div>
 							<div className="flex">
 								{subject.teachers.map((teacher) => (
-									<div key={teacher.name} className="mt-2 text-sm border rounded-full px-2 hover:bg-gray-100 mr-2">
+									<Link href={`${subject._id.toString()}/${encodeURIComponent(teacher.name)}`} key={teacher.name} className="mt-2 text-sm border rounded-full px-2 hover:bg-gray-100 mr-2">
 										<p>{teacher.name}</p>
-									</div>
+									</Link>
 								))}
 							</div>
 						</div>
