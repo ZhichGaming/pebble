@@ -3,28 +3,36 @@
 import client from "@/lib/mongodb/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { User } from "@/lib/mongodb/schema";
 import { LoginFormSchema, SignupFormSchema } from "@/lib/mongodb/definitions";
-import { hash } from "argon2";
+import bcrypt from "bcryptjs";
 
 export async function login(formData: FormData) {
   const validatedFields = LoginFormSchema.safeParse({
-    username: formData.get("username"),
+    email: formData.get("email"),
     password: formData.get("password"),
   });
 
-  // if (!validatedFields.success) {
-  //   return {
-  //     errors: validatedFields.error.flatten().fieldErrors,
-  //   };
-  // }
+  if (validatedFields.error) {
+    return;
+  }
 
-  const user = (await client
+  const user = await client
     .db("auth")
     .collection("users")
-    .findOne({ email: validatedFields.data?.username })) as User;
+    .findOne({ email: validatedFields.data.email });
 
-  console.log("user: ", user);
+  if (!user) {
+    return;
+  }
+
+  const salt = user.salt;
+  const hashedPassword = await bcrypt.hash(
+    validatedFields.data?.password,
+    salt
+  );
+
+  console.log(hashedPassword, user.password);
+  if (hashedPassword == user.password) console.log("password correct");
 
   revalidatePath("/home", "layout");
   redirect("/home");
@@ -40,23 +48,25 @@ export async function signup(formData: FormData) {
   });
 
   const salt = generateSalt(32);
-  const hashedPassword = hash(salt + validatedFields.data?.password);
 
-  const user = await client
-    .db("auth")
-    .collection("users")
-    .insertOne({
-      email: validatedFields.data?.email,
-      password: hashedPassword,
-      salt: salt,
-      identity: {
-        username: validatedFields.data?.username,
-        firstname: validatedFields.data?.firstname,
-        lastname: validatedFields.data?.lastname,
-      },
-      uploads: [],
-      createdAt: new Date(),
-    });
+  if (validatedFields.error) {
+    return validatedFields.error;
+  }
+
+  const hashedPassword = await bcrypt.hash(validatedFields.data.password, salt);
+
+  const error = (await client.db("auth").collection("users")).insertOne({
+    email: validatedFields.data?.email,
+    password: hashedPassword,
+    salt: salt,
+    identity: {
+      username: validatedFields.data?.username,
+      firstname: validatedFields.data?.firstname,
+      lastname: validatedFields.data?.lastname,
+    },
+    uploads: [],
+    createdAt: new Date(),
+  });
 
   revalidatePath("/home", "layout");
   redirect("/home");

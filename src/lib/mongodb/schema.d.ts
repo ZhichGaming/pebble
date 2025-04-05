@@ -17,15 +17,17 @@ export type User = {
 export type Subject = {
   _id: ObjectId;
   name: string;
-  teacher: {
-    name: string;
-    concepts: Concept[];
-  };
+  teacher: Teacher[];
+};
+
+export type Teacher = {
+  name: string;
+  concepts: Concept[];
 };
 
 export type Concept = {
   name: string;
-  images: ObjectId[];
+  explanation: string;
 };
 
 export type Image = {
