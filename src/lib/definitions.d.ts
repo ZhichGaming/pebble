@@ -1,7 +1,7 @@
 import { Blob } from "buffer";
 import { ObjectId } from "mongodb";
 
-type User = {
+export type User = {
   _id: ObjectId;
   email: string;
   password: string;
@@ -14,20 +14,21 @@ type User = {
   uploads: ObjectId[];
 };
 
-type Subject = {
-  name: Tracing;
+export type Subject = {
+  _id: ObjectId;
+  name: string;
   teacher: {
     name: string;
     concepts: Concept[];
   };
 };
 
-type Concept = {
+export type Concept = {
   name: string;
   images: ObjectId[];
 };
 
-type Image = {
+export type Image = {
   _id: ObjectId[];
   imageData: Blob;
 };
