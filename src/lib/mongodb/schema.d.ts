@@ -17,7 +17,7 @@ export type User = {
 export type Subject = {
   _id: ObjectId;
   name: string;
-  teacher: Teacher[];
+  teachers: Teacher[];
 };
 
 export type Teacher = {
