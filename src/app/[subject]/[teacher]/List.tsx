@@ -20,7 +20,7 @@ export default function List({ concepts }: { concepts: Concept[][] }) {
             return (
               <div
                 key={i}
-                className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
+                className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer"
               >
                 <h2 className="text-lg font-semibold">{concept[0].name}</h2>
                 <p className="text-sm text-gray-600">
