@@ -22,17 +22,18 @@ export type Subject = {
 
 export type Teacher = {
   name: string;
-  concepts: Concept[];
+  concepts: ObjectId[];
 };
 
 export type Concept = {
-  concept: string;
+  _id: ObjectId;
+  name: string;
   explanation: string;
   examples: string[];
 };
 
 export type Image = {
-  _id: ObjectId[];
+  _id: ObjectId;
   imageData: string;
 };
 
