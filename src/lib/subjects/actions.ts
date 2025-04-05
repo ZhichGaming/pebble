@@ -12,11 +12,11 @@ export async function getSubjects() {
   return subjects;
 }
 
-export async function getConcepts(name: string) {
+export async function getConcepts(name: string[]) {
   const subjects = await client
     .db("public")
     .collection("concepts")
-    .find({ name })
+    .find({ ...name })
     .toArray();
 
   return subjects;

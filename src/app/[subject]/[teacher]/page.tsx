@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Concept, Subject, Teacher } from '@/lib/mongodb/schema';
-import { getSubjects } from '@/lib/subjects/actions';
+import { getConcepts, getSubjects } from '@/lib/subjects/actions';
 import Link from 'next/link';
 
 // export default function ChapterGrid() {
@@ -57,7 +57,10 @@ export default function StudyGuideList({
 			}
 
 			setSubject(newSubjectObjects);
-			setConcepts(newTeacherObjects.concepts);
+
+			const concepts = await getConcepts(newTeacherObjects.concepts)
+
+			setConcepts(concepts as Concept[]);
 		};
 
 		fetchData();
@@ -72,7 +75,7 @@ export default function StudyGuideList({
 						key={concept.toString()}
 						className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
 					>
-						<h2 className="text-lg font-semibold">{concept.concept}</h2>
+						<h2 className="text-lg font-semibold">{concept.name}</h2>
 						<p className="text-sm text-gray-600">{concept.explanation}</p>
 					</div>
 				))}
