@@ -12,10 +12,10 @@ export default function List({ concepts }: { concepts: Concept[] }) {
   }>();
 
   return (
-    <div className="p-4 flex">
-			<div className="flex-grow">
+    <div className="p-4 flex pt-16">
+			<div className="">
 				<h1 className="text-2xl font-bold mb-4">Chapters</h1>
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+				<div className="grid grid-cols-3 gap-4">
 					{concepts?.map((concept) => (
 						<div
 							key={concept.toString()}
@@ -30,30 +30,31 @@ export default function List({ concepts }: { concepts: Concept[] }) {
 
 			<div className="sticky top-3 w-px bg-gray-300 mx-8 my-3"></div>
 
-			<div className="sticky top-0 w-full">
+			<div className=" w-full gap-y-4">
+        <h1 className="text-2xl font-bold mb-4">Concepts</h1>
 				{concepts?.map((concept) => (
 					<div
 						key={concept.toString()}
 						className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
 					>
-						<h2 className="text-lg font-semibold">{concept.name}</h2>
+						<h2 className="text-xl font-semibold">{concept.name}</h2>
 						<div className="flex gap-x-4 opacity-60">
-							<div className="flex mb-1 items-center">
+							<div className="flex flex-col mb-1">
 								<p>{concept.examples?.length} examples</p>
 							</div>
-							<div className="flex mb-1 items-center">
+							<div className="flex mb-1">
 								<p>{concept.explanation?.length} words</p>
 							</div>
 						</div>
 						<hr className="my-2" />
 
-						<div className="flex mb-1 items-center">
-							<h2 className="text-xl font-bold">Explanation</h2>
+						<div className="flex flex-col mb-1">
+							<h2 className="text-l font-bold">Explanation</h2>
 							<p>{concept.explanation}</p>
 						</div>
 
-						<div className="flex mb-1 items-center">
-							<h2 className="text-xl font-bold">Examples</h2>
+						<div className="flex flex-col mb-1">
+							<h2 className="text-l font-bold">Examples</h2>
 							{concept.examples?.map((example) => (
 								<p>{example}</p>
 							))}
