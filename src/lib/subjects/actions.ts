@@ -13,7 +13,7 @@ export async function getSubjects() {
 }
 
 export async function getConcepts(name: string) {
-  const concept = client
+  const concept = await client
     .db("public")
     .collection("concepts")
     .find({ name })
