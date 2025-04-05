@@ -26,8 +26,9 @@ export type Teacher = {
 };
 
 export type Concept = {
-  name: string;
+  concept: string;
   explanation: string;
+  examples: string[];
 };
 
 export type Image = {
