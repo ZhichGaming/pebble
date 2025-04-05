@@ -48,8 +48,6 @@ export default async function StudyGuideList({
     concepts.push(JSON.parse(await getConcepts(x)) as Concept);
   }
 
-  console.log(concepts);
-
   return <List concepts={concepts} />;
 }
 

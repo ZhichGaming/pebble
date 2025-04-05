@@ -5,7 +5,7 @@ import { getConcepts } from "@/lib/subjects/actions";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function List({ concepts }: { concepts: Concept[] }) {
+export default function List({ concepts }: { concepts: Concept[][] }) {
   const [subjectAndTeacher, setSubjectAndTeacher] = useState<{
     subject: string;
     teacher: string;
@@ -22,8 +22,10 @@ export default function List({ concepts }: { concepts: Concept[] }) {
                 key={i}
                 className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
               >
-                <h2 className="text-lg font-semibold">{concept.name}</h2>
-                <p className="text-sm text-gray-600">{concept.explanation}</p>
+                <h2 className="text-lg font-semibold">{concept[0].name}</h2>
+                <p className="text-sm text-gray-600">
+                  {concept[0].explanation}
+                </p>
               </div>
             );
           })}
