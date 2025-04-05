@@ -12,7 +12,6 @@ import {
 import client from "@/lib/mongodb/client";
 import { createSession, deleteSession } from "@/lib/mongodb/session";
 import { cookies } from "next/headers";
-import { ClientUser } from "../mongodb/schema";
 import { revalidatePath } from "next/cache";
 
 export async function login(state: FormState, formData: FormData) {
@@ -109,6 +108,7 @@ export async function signup(state: FormState, formData: FormData) {
 
 export async function logout() {
   await deleteSession();
+  redirect("/login");
 }
 
 export async function getUser() {
@@ -120,6 +120,6 @@ export async function getUser() {
     redirect("/login");
   }
 
-  return JSON.parse(user) as ClientUser;
+  return JSON.stringify(user);
 }
 
