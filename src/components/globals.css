@@ -20,15 +20,21 @@
   --color-success: #17bf63;
   --color-warning: #ffad1f;
   --color-error: #e0245e;
-  
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1b1b1b;
-    --foreground: #e4e4de;
+    --primary: #595f39;
+    --secondary: #c4c5ba;
+    --dark: #1b1b1b;
+    --accent: #595f39;
+    --neutral: #e4e4de;
+    --success: #17bf63;
+    --warning: #ffad1f;
+    --error: #e0245e;
   }
 }
 

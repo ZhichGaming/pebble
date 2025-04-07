@@ -8,8 +8,8 @@ export default function LoginPage() {
   const [state, action, pending] = useActionState(login, undefined);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-neutral">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md text-gray-800">
         <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
         <form className="space-y-4" action={action}>
           <div>
@@ -28,7 +28,9 @@ export default function LoginPage() {
               placeholder="Enter your email"
               required
             />
-            {state?.errors?.email && <p>{state.errors.email}</p>}
+            <span className="text-error">
+              {state?.errors?.email && <p>{state.errors.email}</p>}
+            </span>
           </div>
           <div>
             <label
@@ -45,16 +47,18 @@ export default function LoginPage() {
               placeholder="Enter your password"
               required
             />
-            {state?.errors?.password && (
-              <div>
-                <p>Password must:</p>
-                <ul>
-                  {state.errors.password.map((error) => (
-                    <li key={error}>- {error}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <span className="text-error">
+              {state?.errors?.password && (
+                <div>
+                  <p>Password must:</p>
+                  <ul>
+                    {state.errors.password.map((error) => (
+                      <li key={error}>- {error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </span>
           </div>
           <button
             type="submit"

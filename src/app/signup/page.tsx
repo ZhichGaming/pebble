@@ -9,7 +9,7 @@ export default function SignupPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-neutral">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md text-dark">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Sign Up
         </h2>
@@ -28,7 +28,9 @@ export default function SignupPage() {
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your Username"
             />
-            {state?.errors?.username && <p>{state.errors.username}</p>}
+            <span className="text-error">
+              {state?.errors?.username && <p>{state.errors.username}</p>}
+            </span>
           </div>
           <div>
             <label
@@ -44,7 +46,9 @@ export default function SignupPage() {
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your first name"
             />
-            {state?.errors?.firstname && <p>{state.errors.firstname}</p>}
+            <span className="text-error">
+              {state?.errors?.firstname && <p>{state.errors.firstname}</p>}
+            </span>
           </div>
           <div>
             <label
@@ -60,7 +64,9 @@ export default function SignupPage() {
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your last name"
             />
-            {state?.errors?.lastname && <p>{state.errors.lastname}</p>}
+            <span className="text-error">
+              {state?.errors?.lastname && <p>{state.errors.lastname}</p>}
+            </span>
           </div>
           <div>
             <label
@@ -76,7 +82,9 @@ export default function SignupPage() {
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your email"
             />
-            {state?.errors?.email && <p>{state.errors.email}</p>}
+            <span className="text-error">
+              {state?.errors?.email && <p>{state.errors.email}</p>}
+            </span>
           </div>
           <div>
             <label
@@ -93,16 +101,18 @@ export default function SignupPage() {
               placeholder="Enter your password"
             />
           </div>
-          {state?.errors?.password && (
-            <div>
-              <p>Password must:</p>
-              <ul>
-                {state.errors.password.map((error) => (
-                  <li key={error}>- {error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <span className="text-error">
+            {state?.errors?.password && (
+              <div>
+                <p>Password must:</p>
+                <ul>
+                  {state.errors.password.map((error) => (
+                    <li key={error}>- {error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </span>
           <button
             type="submit"
             className="w-full px-4 py-2 text-white bg-primary rounded-md cursor-pointer"

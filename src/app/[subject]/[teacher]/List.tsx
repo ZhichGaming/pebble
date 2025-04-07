@@ -1,18 +1,18 @@
 "use client";
 
 import { Concept } from "@/lib/mongodb/schema";
-import { getConcepts } from "@/lib/subjects/actions";
 import { ObjectId } from "mongodb";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function List({ concepts }: { concepts: Concept[] }) {
+export default function List({
+  concepts,
+  teacher,
+}: {
+  concepts: Concept[];
+  teacher: string;
+}) {
   const [selected, setSelected] = useState<ObjectId>();
-
-  const [subjectAndTeacher, setSubjectAndTeacher] = useState<{
-    subject: string;
-    teacher: string;
-  }>();
 
   return (
     <div className="px-[5%] py-[10%] flex">
@@ -72,7 +72,7 @@ export default function List({ concepts }: { concepts: Concept[] }) {
         ) ?? <p>Click a concept from the left side to view</p>}
       </div>
       <Link
-        href={`${subjectAndTeacher?.teacher}/new`}
+        href={`${teacher}/new`}
         className="fixed bottom-0 right-0 m-4 inline-block bg-primary text-white px-4 py-2 rounded-full"
       >
         +
