@@ -1,7 +1,18 @@
 import { updateSession } from "@/lib/mongodb/session";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware() {
-  return await updateSession();
+export async function middleware(request: NextRequest) {
+  const headers = new Headers(request.headers);
+  headers.set("x-current-path", request.nextUrl.pathname);
+
+  await updateSession();
+
+  return NextResponse.next({
+    request: {
+      // New request headers
+      headers,
+    },
+  });
 }
 
 export const config = {
@@ -13,7 +24,7 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|login|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
 

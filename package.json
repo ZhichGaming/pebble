@@ -9,8 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.2",
     "@google/genai": "^0.7.0",
+    "autoprefixer": "^10.4.21",
+    "bcryptjs": "^3.0.2",
     "jose": "^6.0.10",
     "mongodb": "^6.15.0",
     "next": "15.2.4",

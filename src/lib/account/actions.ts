@@ -52,14 +52,16 @@ export async function login(state: FormState, formData: FormData) {
     };
   }
 
-  await createSession({
+  const session = await createSession({
     _id: user._id,
     email: user.email,
     identity: user.identity,
   });
 
-  revalidatePath("/home", "layout");
-  redirect("/home");
+  if (session) {
+    revalidatePath("/home", "layout");
+    redirect("/home");
+  }
 }
 
 export async function signup(state: FormState, formData: FormData) {
@@ -117,7 +119,7 @@ export async function getUser() {
   const user = cookieStore.get("user")?.value;
 
   if (!user) {
-    redirect("/login");
+    return null;
   }
 
   return JSON.stringify(user);

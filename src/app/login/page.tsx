@@ -8,7 +8,7 @@ export default function LoginPage() {
   const [state, action, pending] = useActionState(login, undefined);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#E4E4DE]">
+    <div className="flex items-center justify-center min-h-screen bg-neutral">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
         <form className="space-y-4" action={action}>
@@ -59,15 +59,15 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={pending}
-            className="w-full px-4 py-2 text-white bg-[#595F39] rounded-md cursor-pointer"
+            className="w-full px-4 py-2 text-white bg-primary rounded-md cursor-pointer"
           >
-            Sign In
+            Login
           </button>
         </form>
         <p className="text-sm text-center text-gray-600">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="text-[#595F39] hover:underline">
-            Login
+          <Link href="/signup" className="text-primary hover:underline">
+            Sign up
           </Link>
         </p>
       </div>

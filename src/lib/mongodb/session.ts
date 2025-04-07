@@ -54,18 +54,22 @@ export async function createSession(clientUser: ClientUser) {
 }
 
 export async function updateSession() {
-  const session = (await cookies()).get("session")?.value;
-  const user = (await cookies()).get("user")?.value;
+  const cookieStore = await cookies();
+
+  const session = cookieStore.get("session")?.value;
+  const user = cookieStore.get("user")?.value;
 
   const payload = await decrypt(session);
 
   if (!session || !payload) {
+    cookieStore.delete("session");
+    cookieStore.delete("user");
+
     return null;
   }
 
   const expires = new Date(Date.now() + 60 * 60 * 1000);
 
-  const cookieStore = await cookies();
   cookieStore.set("session", session, {
     httpOnly: true,
     secure: true,

@@ -8,7 +8,7 @@ export default function SignupPage() {
   const [state, action, pending] = useActionState(signup, undefined);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#E4E4DE]">
+    <div className="flex items-center justify-center min-h-screen bg-neutral">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Sign Up
@@ -105,7 +105,7 @@ export default function SignupPage() {
           )}
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-[#595F39] rounded-md cursor-pointer"
+            className="w-full px-4 py-2 text-white bg-primary rounded-md cursor-pointer"
             disabled={pending}
           >
             Sign Up
@@ -113,7 +113,7 @@ export default function SignupPage() {
         </form>
         <p className="text-sm text-center text-gray-600">
           Already have an account?{" "}
-          <Link href="/login" className="text-[#595F39] hover:underline">
+          <Link href="/login" className="text-primary hover:underline">
             Log in
           </Link>
         </p>

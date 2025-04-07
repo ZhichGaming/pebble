@@ -73,7 +73,7 @@ export default function List({ concepts }: { concepts: Concept[] }) {
       </div>
       <Link
         href={`${subjectAndTeacher?.teacher}/new`}
-        className="fixed bottom-0 right-0 m-4 inline-block bg-[#595F39] text-white px-4 py-2 rounded-full"
+        className="fixed bottom-0 right-0 m-4 inline-block bg-primary text-white px-4 py-2 rounded-full"
       >
         +
       </Link>
