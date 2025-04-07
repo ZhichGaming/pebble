@@ -31,13 +31,13 @@ export default function NavElement({ user }: { user: ClientUser }) {
               <div>
                 <Link
                   className="border-2 border-primary rounded-lg bg-primary text-neutral py-1.5 px-3 mx-2"
-                  href="./login"
+                  href="/login"
                 >
                   Login
                 </Link>
                 <Link
                   className="border-2 border-primary rounded-lg py-1.5 px-3 mx-2"
-                  href="./signup"
+                  href="/signup"
                 >
                   Sign up
                 </Link>
