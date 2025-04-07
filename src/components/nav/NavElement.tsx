@@ -1,29 +1,10 @@
-"use client";
+"use effect";
 
-import Link from "next/link";
-import React, { useEffect } from "react";
-import "@/components/globals.css";
-import { getUser, logout } from "@/lib/account/actions";
+import { logout } from "@/lib/account/actions";
 import { ClientUser } from "@/lib/mongodb/schema";
-import Image from "next/image";
+import Link from "next/link";
 
-import Logo from "@/app/favicon.ico";
-
-export default function NavigationBar() {
-  const [user, setUser] = React.useState<ClientUser | null>(null);
-
-  useEffect(() => {
-    async function checkUser() {
-      const user = await getUser();
-
-      if (!user) {
-        return;
-      }
-
-      setUser(JSON.parse(user));
-    }
-  });
-
+export default function NavElement({ user }: { user: ClientUser }) {
   return (
     <nav className="fixed w-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

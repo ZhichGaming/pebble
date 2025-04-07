@@ -15,9 +15,9 @@ export default function List({ concepts }: { concepts: Concept[] }) {
   }>();
 
   return (
-    <div className="p-4 flex pt-16">
+    <div className="px-[5%] py-[10%] flex">
       <div className="">
-        <h1 className="text-2xl font-bold mb-4">Chapters</h1>
+        <h1 className="text-2xl font-bold mb-4">Concepts</h1>
         <div className="grid grid-cols-3 gap-4">
           {concepts?.map((concept) => (
             <div
@@ -35,7 +35,7 @@ export default function List({ concepts }: { concepts: Concept[] }) {
       <div className="sticky top-3 w-px bg-gray-300 mx-8 my-3"></div>
 
       <div className=" w-full gap-y-4">
-        <h1 className="text-2xl font-bold mb-4">Concepts</h1>
+        <h1 className="text-2xl font-bold mb-4">Details</h1>
         {concepts?.map((concept) =>
           concept._id == selected ? (
             <div
