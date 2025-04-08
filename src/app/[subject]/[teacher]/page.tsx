@@ -1,5 +1,5 @@
 import { Concept, Subject } from "@/lib/mongodb/schema";
-import List from "./List";
+import List from "../../../components/subject/teacher/List";
 import { getConcepts, getSubjects } from "@/lib/subjects/actions";
 
 // export default function ChapterGrid() {
@@ -34,7 +34,7 @@ export default async function StudyGuideList({
 
   const subjects = JSON.parse(await getSubjects()) as Subject[];
   const selectedSubject = subjects.filter(
-    (s) => s._id.toString() == subject
+    (s) => s.name == subject
   )[0] as Subject;
 
   let teachers = selectedSubject.teachers;

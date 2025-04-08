@@ -81,9 +81,7 @@ export default function HomePage() {
               <div className="flex">
                 {subject.teachers.map((teacher) => (
                   <Link
-                    href={`${subject._id.toString()}/${encodeURIComponent(
-                      teacher.name
-                    )}`}
+                    href={`${subject.name}/${encodeURIComponent(teacher.name)}`}
                     key={teacher.name}
                     className="mt-2 text-sm border rounded-full px-2 hover:bg-gray-100 mr-2"
                   >

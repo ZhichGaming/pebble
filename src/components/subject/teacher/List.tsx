@@ -15,7 +15,7 @@ export default function List({
   const [selected, setSelected] = useState<ObjectId>();
 
   return (
-    <div className="px-[5%] py-[10%] flex">
+    <div className="px-[5%] pb-[10%] flex">
       <div className="">
         <h1 className="text-2xl font-bold mb-4">Concepts</h1>
         <div className="grid grid-cols-3 gap-4">
