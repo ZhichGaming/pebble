@@ -16,7 +16,7 @@ export default function List({
 
   return (
     <div className="px-[5%] pb-[10%] flex">
-      <div className="">
+      <div className="w-2/3">
         <h1 className="text-2xl font-bold mb-4">Concepts</h1>
         <div className="grid grid-cols-3 gap-4">
           {concepts?.map((concept) => (
@@ -34,7 +34,7 @@ export default function List({
 
       <div className="sticky top-3 w-px bg-gray-300 mx-8 my-3"></div>
 
-      <div className=" w-full gap-y-4">
+      <div className=" w-1/3 gap-y-4">
         <h1 className="text-2xl font-bold mb-4">Details</h1>
         {concepts?.map((concept) =>
           concept._id == selected ? (
@@ -44,21 +44,21 @@ export default function List({
             >
               <h2 className="text-xl font-semibold">{concept.name}</h2>
               <div className="flex gap-x-4 opacity-60">
-                <div className="flex flex-col mb-1">
+                <div className="flex flex-col mb-2">
                   <p>{concept.examples?.length} examples</p>
                 </div>
                 <div className="flex mb-1">
-                  <p>{concept.explanation?.length} words</p>
+                  <p>{concept.explanation?.length} characters</p>
                 </div>
               </div>
               <hr className="my-2" />
 
-              <div className="flex flex-col mb-1">
+              <div className="flex flex-col mb-2">
                 <h2 className="text-l font-bold">Explanation</h2>
                 <p>{concept.explanation}</p>
               </div>
 
-              <div className="flex flex-col mb-1">
+              <div className="flex flex-col mb-2">
                 <h2 className="text-l font-bold">Examples</h2>
                 {concept.examples?.map((example) => (
                   <p key={example}>{example}</p>
