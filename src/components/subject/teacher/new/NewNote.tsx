@@ -3,6 +3,7 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 
 import SingleFileUploader from "./upload";
+import { Concept } from "@/lib/mongodb/schema";
 
 export default function NewNote({
   synchronizeConcepts,
@@ -12,19 +13,15 @@ export default function NewNote({
     text: string;
     error: string;
   }>;
-  synchronizeConcepts: (text: string) => Promise<any>;
+  synchronizeConcepts: (text: string) => Promise<Concept[]>;
 }) {
   const [file, setFile] = useState<File>();
   const [loading, setLoading] = useState(false);
-  const [summary, setSummary] = useState<string>("");
+  const [concepts, setConcepts] = useState<Concept[]>([]);
 
   const [text, setText] = useState<string>("");
 
-  useEffect(() => {
-    console.log(file);
-  });
-
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const handleProcess = async (e: SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
 
@@ -36,9 +33,16 @@ export default function NewNote({
       console.error("Error:", response.error);
     }
 
-    if (response) {
-      setLoading(false);
-    }
+    setLoading(false);
+  };
+
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const response = await synchronizeConcepts(text);
+    setConcepts(response);
+    setLoading(false);
   };
 
   return (
@@ -48,8 +52,21 @@ export default function NewNote({
         <SingleFileUploader file={file} setFile={setFile} />
         <hr className="my-8" />
 
-        {summary ? (
-          <p>{summary}</p>
+        {concepts.length > 0 ? (
+          <>
+            <h2 className="text-2xl font-bold text-primary mb-4">Extracted Concepts</h2>
+            <ul>
+              {concepts.map((concept) => (
+                <li key={crypto.randomUUID()}>
+                  <span className="font-bold">{concept.name}: </span>
+                  {concept.explanation}
+                  {concept.examples.length > 0 && (
+                    <span className="text-gray-500"> (+{concept.examples.length} example{concept.examples.length > 1 ? "s" : ""})</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
         ) : (
           <textarea
             value={text}
@@ -60,7 +77,7 @@ export default function NewNote({
 
         {file ? (
           <button
-            onClick={handleSubmit}
+            onClick={handleProcess}
             className={`mt-8 w-full border-2 border-primary bg-primary text-white py-4 px-6 rounded-lg font-semibold transition ${
               loading
                 ? "opacity-50 cursor-not-allowed"
@@ -72,9 +89,7 @@ export default function NewNote({
           </button>
         ) : (
           <button
-            onClick={async () => {
-              setSummary(await synchronizeConcepts(text));
-            }}
+            onClick={handleSubmit}
             className={`mt-8 w-full border-2 border-primary bg-primary text-white py-4 px-6 rounded-lg font-semibold transition ${
               (!text || loading)
                 ? "opacity-50 cursor-not-allowed"
