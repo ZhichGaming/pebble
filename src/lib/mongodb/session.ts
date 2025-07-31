@@ -59,10 +59,7 @@ export async function updateSession(): Promise<boolean> {
   const session = cookieStore.get("session")?.value;
   const user = cookieStore.get("user")?.value;
   
-  console.log(session);
   const payload = await decrypt(session);
-
-  
 
   if (!session || !payload) {
     cookieStore.delete("session");
@@ -81,13 +78,16 @@ export async function updateSession(): Promise<boolean> {
     path: "/",
   });
 
-  cookieStore.set("user", JSON.stringify(user), {
-    httpOnly: true,
-    secure: true,
-    expires: expires,
-    sameSite: "lax",
-    path: "/",
-  });
+  if (user) {
+    cookieStore.set("user", user, {
+      httpOnly: true,
+      secure: true,
+      expires: expires,
+      sameSite: "lax",
+      path: "/",
+    });
+  }
+
 
   return true
 }

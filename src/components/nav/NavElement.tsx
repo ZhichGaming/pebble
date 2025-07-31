@@ -3,7 +3,7 @@
 import { logout } from "@/lib/account/actions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../store/Context";
 
 export default function NavElement() {
@@ -11,7 +11,7 @@ export default function NavElement() {
   const user = useContext(UserContext);
 
   return (
-    <nav className="sticky w-screen">
+    <nav className="fixed w-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -23,6 +23,7 @@ export default function NavElement() {
             (user
               ? (
                 <div>
+                  {user.identity.username}
                   <button
                     className="border-2 border-primary rounded-lg bg-primary text-neutral py-1.5 px-3 mx-2 cursor-pointer"
                     onClick={logout}
