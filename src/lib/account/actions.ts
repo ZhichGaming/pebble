@@ -13,6 +13,7 @@ import client from "@/lib/mongodb/client";
 import { createSession, deleteSession } from "@/lib/mongodb/session";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { ClientUser } from "../mongodb/schema";
 
 export async function login(state: FormState, formData: FormData) {
   await deleteSession();
@@ -113,7 +114,7 @@ export async function logout() {
   redirect("/login");
 }
 
-export async function getUser() {
+export async function getUser(): Promise<ClientUser | null>{
   const cookieStore = await cookies();
 
   const user = cookieStore.get("user")?.value;
@@ -122,6 +123,6 @@ export async function getUser() {
     return null;
   }
 
-  return JSON.stringify(user);
+  return JSON.parse(user) satisfies ClientUser;
 }
 

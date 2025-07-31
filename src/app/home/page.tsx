@@ -1,29 +1,17 @@
 "use client";
 
 import { ClientUser, Subject } from "@/lib/mongodb/schema";
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import userImagePath from "@/assets/user.png";
 import cubeImagePath from "@/assets/3d-cube.png";
 import Link from "next/link";
-import { getUser } from "@/lib/account/actions";
 import { getSubjects } from "@/lib/subjects/actions";
 
 export default function HomePage() {
-  const [user, setUser] = React.useState<ClientUser | null>(null);
   const [subjects, setSubjects] = React.useState<Subject[]>([]);
 
   React.useEffect(() => {
-    const fetchUser = async () => {
-      const data = await getUser();
-
-      if (!data) {
-        return;
-      }
-
-      setUser(JSON.parse(data));
-    };
-
     const fetchSubjects = async () => {
       const data = await getSubjects();
 
@@ -34,7 +22,6 @@ export default function HomePage() {
       setSubjects(JSON.parse(data) as Subject[]);
     };
 
-    fetchUser();
     fetchSubjects();
   }, []);
 
@@ -69,8 +56,9 @@ export default function HomePage() {
                   <p>
                     {subject.teachers
                       .map((t) => t.concepts.length)
-                      .reduce((acc, curr) => curr + acc)}{" "}
-                    concepts
+                      .reduce((acc, curr) =>
+                        curr + acc
+                      )} concepts
                   </p>
                 </div>
               </div>
@@ -100,15 +88,16 @@ export default function HomePage() {
         <div className="sticky top-0 flex-1 w-64">
           <h2 className="text-xl font-bold mb-4">Your Uploads</h2>
           <div className="grid grid-cols-2 gap-4">
-            {/* {user.uploads.map((upload) => (
+            {
+              /* {user.uploads.map((upload) => (
 							<div key={upload.toString()} className="bg-white rounded-lg shadow p-5 mb-4 text-[#1B1B1B]">
 								<p>{upload.toString()}</p>
 							</div>
-						))} */}
+						))} */
+            }
           </div>
         </div>
       </div>
     </div>
   );
 }
-
