@@ -14,10 +14,15 @@ export default function NavElement() {
     <nav className="fixed w-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
+          <Link href={"/"} className="flex items-center">
             <img src="../favicon.ico" alt="" className="h-6 mr-4" />
             <div className="text-xl font-bold text-primary">Pebble</div>
-          </div>
+          </Link>
+          {user && (
+            <Link href={"/home"}>
+              home
+            </Link>
+          )}
           {location !== "/login" &&
             location !== "/signup" &&
             (user

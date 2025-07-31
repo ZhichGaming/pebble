@@ -11,7 +11,8 @@ export async function middleware(request: NextRequest) {
 
     if (
       request.nextUrl.pathname == "/login" ||
-      request.nextUrl.pathname == "/signup"
+      request.nextUrl.pathname == "/signup" ||
+      request.nextUrl.pathname == "/"
     ) {
       return NextResponse.next({
         request: {
