@@ -13,12 +13,10 @@ async function synchronizeConcepts(text: string) {
   "use server";
 
   const concepts = await processNotes(text);
-  console.log("Extracted concepts:", concepts);
 
   // const currentConcepts = getConcepts();
   const currentConcepts: Concept[] = [];
   const synced = await integrateConcepts(currentConcepts, concepts);
-  console.log("Synced concepts:", synced);
 
   for (const concept of synced) {
     uploadConcept(concept);
