@@ -33,14 +33,22 @@ export default async function StudyGuideList({
   const { subject, teacher } = await params;
 
   const subjects = JSON.parse(await getSubjects()) as Subject[];
-  const selectedSubject = subjects.filter(
-    (s) => s.name == subject
-  )[0] as Subject;
+  const selectedSubject = subjects.find(
+    (s) => encodeURIComponent(s.name) == subject
+  );
+
+  if (!selectedSubject) {
+    return <div className="w-full flex justify-center">Subject not found</div>;
+  }
 
   let teachers = selectedSubject.teachers;
-  const selectedTeacher = teachers.filter(
+  const selectedTeacher = teachers.find(
     (t) => encodeURIComponent(t.name) == teacher
-  )[0];
+  );
+
+  if (!selectedTeacher) {
+    return <div className="w-full flex justify-center">Teacher not found</div>;
+  }
 
   const concepts = [];
 
