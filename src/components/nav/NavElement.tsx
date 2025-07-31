@@ -4,9 +4,12 @@ import { logout } from "@/lib/account/actions";
 import { ClientUser } from "@/lib/mongodb/schema";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useContext } from "react";
+import { UserContext } from "../store/Context";
 
-export default function NavElement({ user }: { user: ClientUser }) {
+export default function NavElement() {
   const location = usePathname();
+  const user = useContext(UserContext);
 
   return (
     <nav className="sticky w-screen">
@@ -18,34 +21,35 @@ export default function NavElement({ user }: { user: ClientUser }) {
           </div>
           {location !== "/login" &&
             location !== "/signup" &&
-            (user ? (
-              <div>
-                <button
-                  className="border-2 border-primary rounded-lg bg-primary text-neutral py-1.5 px-3 mx-2 cursor-pointer"
-                  onClick={logout}
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div>
-                <Link
-                  className="border-2 border-primary rounded-lg bg-primary text-neutral py-1.5 px-3 mx-2"
-                  href="/login"
-                >
-                  Login
-                </Link>
-                <Link
-                  className="border-2 border-primary rounded-lg py-1.5 px-3 mx-2"
-                  href="/signup"
-                >
-                  Sign up
-                </Link>
-              </div>
-            ))}
+            (user
+              ? (
+                <div>
+                  <button
+                    className="border-2 border-primary rounded-lg bg-primary text-neutral py-1.5 px-3 mx-2 cursor-pointer"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )
+              : (
+                <div>
+                  <Link
+                    className="border-2 border-primary rounded-lg bg-primary text-neutral py-1.5 px-3 mx-2"
+                    href="/login"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    className="border-2 border-primary rounded-lg py-1.5 px-3 mx-2"
+                    href="/signup"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              ))}
         </div>
       </div>
     </nav>
   );
 }
-

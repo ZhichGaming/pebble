@@ -22,7 +22,7 @@ export async function decrypt(session: string | undefined = "") {
     });
     return payload;
   } catch (error) {
-    console.log("Failed to verify session: " + error);
+    console.log("[@/lib/mongodb/session.ts 25] Failed to verify session: " + error);
   }
 }
 

@@ -7,7 +7,7 @@ export default function LandingPage() {
     <div className="flex flex-row items-center flex-grow px-4 h-screen">
       <div className="flex flex-col max-w-3/5 items-start pl-14">
         <h1 className="text-6xl text-left font-bold mb-4 w-4/5">
-          Let’s pave our road to success one{" "}
+          Let&apos;s pave our road to success one{" "}
           <span className="text-primary">Pebble</span> at a time
         </h1>
         <p className="text-xl text-left text-gray-600">
@@ -20,9 +20,9 @@ export default function LandingPage() {
           src={Gravel}
           alt="Pebbles"
           title="Pebbles"
-        ></Image>
+        >
+        </Image>
       </div>
     </div>
   );
 }
-
