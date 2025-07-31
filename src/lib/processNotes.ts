@@ -26,5 +26,9 @@ export default async function processNotes(notes: string): Promise<Concept[]> {
 	let response = await requestAI(prompt);
 	response = response.replace(/```json\s/g, "").replace(/\s```/g, "");
 
-	return JSON.parse(response) as Concept[]; 
+	return JSON.parse(response).map((concept: any) => ({
+    name: concept.concept,
+    explanation: concept.explanation,
+    examples: concept.examples,
+  })) as Concept[]; 
 }

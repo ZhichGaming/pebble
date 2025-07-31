@@ -28,7 +28,11 @@ export default async function integrateConcepts(newConcepts: Concept[], existing
   let response = await requestAI(prompt);
 	response = response.replace(/```json\s/g, "").replace(/\s```/g, "");
 
-  const integratedConcepts = JSON.parse(response) as Concept[];
+  const integratedConcepts = JSON.parse(response).map((concept: any) => ({
+    name: concept.concept,
+    explanation: concept.explanation,
+    examples: concept.examples,
+  })) as Concept[];
 
   return integratedConcepts;
 }
