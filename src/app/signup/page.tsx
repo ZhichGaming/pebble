@@ -27,6 +27,7 @@ export default function SignupPage() {
               name="username"
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your Username"
+              defaultValue={state?.payload?.get("username") as string}
             />
             <span className="text-error">
               {state?.errors?.username && <p>{state.errors.username}</p>}
@@ -45,6 +46,7 @@ export default function SignupPage() {
               name="firstname"
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your first name"
+              defaultValue={state?.payload?.get("firstname") as string}
             />
             <span className="text-error">
               {state?.errors?.firstname && <p>{state.errors.firstname}</p>}
@@ -63,6 +65,7 @@ export default function SignupPage() {
               name="lastname"
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your last name"
+              defaultValue={state?.payload?.get("lastname") as string}
             />
             <span className="text-error">
               {state?.errors?.lastname && <p>{state.errors.lastname}</p>}
@@ -81,6 +84,7 @@ export default function SignupPage() {
               name="email"
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your email"
+              defaultValue={state?.payload?.get("email") as string}
             />
             <span className="text-error">
               {state?.errors?.email && <p>{state.errors.email}</p>}
@@ -100,19 +104,19 @@ export default function SignupPage() {
               className="w-full px-4 py-2 mt-1 border rounded-md"
               placeholder="Enter your password"
             />
+            <span className="text-error">
+              {state?.errors?.password && (
+                <div>
+                  <p>Password must:</p>
+                  <ul>
+                    {state.errors.password.map((error) => (
+                      <li key={error}>- {error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </span>
           </div>
-          <span className="text-error">
-            {state?.errors?.password && (
-              <div>
-                <p>Password must:</p>
-                <ul>
-                  {state.errors.password.map((error) => (
-                    <li key={error}>- {error}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </span>
           <button
             type="submit"
             className="w-full px-4 py-2 text-white bg-primary rounded-md cursor-pointer"
