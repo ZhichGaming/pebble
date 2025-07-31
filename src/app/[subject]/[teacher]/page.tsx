@@ -1,6 +1,6 @@
 import { Concept, Subject } from "@/lib/mongodb/schema";
 import List from "../../../components/subject/teacher/List";
-import { getConcepts, getSubjects } from "@/lib/subjects/actions";
+import { getConcept, getSubjects } from "@/lib/subjects/actions";
 
 // export default function ChapterGrid() {
 // 	const router = useRouter();
@@ -52,8 +52,11 @@ export default async function StudyGuideList({
 
   const concepts = [];
 
-  for (const x of selectedTeacher.concepts) {
-    concepts.push(JSON.parse(await getConcepts(x)) as Concept);
+  for (const conceptName of selectedTeacher.concepts) {
+    const concept = JSON.parse(await getConcept(conceptName));
+    if (!concept) continue;
+
+    concepts.push(concept);
   }
 
   return <List concepts={concepts.flat()} teacher={teacher} />;

@@ -3,6 +3,7 @@ import integrateConcepts from "@/lib/integrateConcepts";
 import { Concept } from "@/lib/mongodb/schema";
 import { runVisionOCRFromBuffer } from "@/lib/ocr";
 import processNotes from "@/lib/processNotes";
+import { getConcept, getConceptsByTeacher } from "@/lib/subjects/actions";
 import { addConceptToSubject, uploadConcept } from "@/lib/upload/actions";
 
 export default function NewPage({
@@ -18,9 +19,10 @@ async function synchronizeConcepts(text: string, subject: string, teacher: strin
 
   const concepts = await processNotes(text);
 
-  // const currentConcepts = getConcepts();
-  const currentConcepts: Concept[] = [];
-  const synced = await integrateConcepts(currentConcepts, concepts);
+  const currentConcepts = JSON.parse(await getConceptsByTeacher(subject, teacher));
+  console.log("Current concepts:", currentConcepts);
+  const synced = await integrateConcepts(concepts, currentConcepts);
+  console.log("Synced concepts:", synced);
 
   for (const concept of synced) {
     await uploadConcept(concept);

@@ -18,6 +18,7 @@ export default async function integrateConcepts(newConcepts: Concept[], existing
   - Do not mention any personally identifiable information.
   - Keep the language of the values in the same language as the input.
 	- Only return the JSON object, do not include any other text, do not include any code block markers or strings.
+  - Only return the concepts that are new or have been modified, DO NOT return the existing concepts that have NOT been modified. What you return should not be the final list of concepts, but rather the changes that should be made to the existing concepts.
 
   Existing Concepts:
   ${JSON.stringify(existingConcepts)}
