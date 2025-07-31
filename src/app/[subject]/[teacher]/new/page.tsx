@@ -6,10 +6,10 @@ import processNotes from "@/lib/processNotes";
 import { uploadConcept } from "@/lib/upload/actions";
 
 export default function NewPage() {
-  return <NewNote handleClick={handleClick} doSubmit={doSubmit} />;
+  return <NewNote synchronizeConcepts={synchronizeConcepts} processImage={processImage} />;
 }
 
-async function handleClick(text: string) {
+async function synchronizeConcepts(text: string) {
   "use server";
 
   const concepts = await processNotes(text);
@@ -25,7 +25,7 @@ async function handleClick(text: string) {
   return concepts.toString();
 }
 
-async function doSubmit(file: File | undefined) {
+async function processImage(file: File | undefined) {
   "use server";
 
   if (!file) return alert("Please upload a file!");
