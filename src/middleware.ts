@@ -5,7 +5,17 @@ export async function middleware(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set("x-current-path", request.nextUrl.pathname);
 
-  await updateSession();
+  const res = await updateSession();
+
+  if (res == null) {
+    if (request.nextUrl.pathname == "/login" || request.nextUrl.pathname == "/signup") return NextResponse.next({
+    request: {
+      // New request headers
+      headers,
+    },
+  });
+
+  }
 
   return NextResponse.next({
     request: {

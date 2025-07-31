@@ -1,7 +1,6 @@
 "use client";
 
 import { logout } from "@/lib/account/actions";
-import { ClientUser } from "@/lib/mongodb/schema";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext } from "react";
@@ -10,6 +9,8 @@ import { UserContext } from "../store/Context";
 export default function NavElement() {
   const location = usePathname();
   const user = useContext(UserContext);
+
+  console.log(user);
 
   return (
     <nav className="sticky w-screen">
