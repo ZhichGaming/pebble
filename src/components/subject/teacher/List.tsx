@@ -61,7 +61,7 @@ export default function List({
               <div className="flex flex-col mb-1">
                 <h2 className="text-l font-bold">Examples</h2>
                 {concept.examples?.map((example) => (
-                  <p>{example}</p>
+                  <p key={example}>{example}</p>
                 ))}
               </div>
               <hr className="my-2" />
