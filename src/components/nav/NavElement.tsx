@@ -3,14 +3,12 @@
 import { logout } from "@/lib/account/actions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../store/Context";
 
 export default function NavElement() {
   const location = usePathname();
   const user = useContext(UserContext);
-
-  console.log(user);
 
   return (
     <nav className="sticky w-screen">

@@ -11,7 +11,7 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("10 seconds from now")
+    .setExpirationTime("1 hour from now")
     .sign(key);
 }
 
@@ -53,19 +53,22 @@ export async function createSession(clientUser: ClientUser) {
   return session;
 }
 
-export async function updateSession() {
+export async function updateSession(): Promise<boolean> {
   const cookieStore = await cookies();
-
+  
   const session = cookieStore.get("session")?.value;
   const user = cookieStore.get("user")?.value;
-
+  
+  console.log(session);
   const payload = await decrypt(session);
+
+  
 
   if (!session || !payload) {
     cookieStore.delete("session");
     cookieStore.delete("user");
 
-    return null;
+    return false;
   }
 
   const expires = new Date(Date.now() + 60 * 60 * 1000);
@@ -85,6 +88,8 @@ export async function updateSession() {
     sameSite: "lax",
     path: "/",
   });
+
+  return true
 }
 
 export async function deleteSession() {

@@ -1,7 +1,7 @@
 "use client";
 
-import { ClientUser, User } from "@/lib/mongodb/schema";
-import { createContext, useState } from "react";
+import { ClientUser } from "@/lib/mongodb/schema";
+import { createContext } from "react";
 
 export const UserContext = createContext<ClientUser | null>(null);
 

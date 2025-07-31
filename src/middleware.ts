@@ -7,14 +7,21 @@ export async function middleware(request: NextRequest) {
 
   const res = await updateSession();
 
-  if (res == null) {
-    if (request.nextUrl.pathname == "/login" || request.nextUrl.pathname == "/signup") return NextResponse.next({
-    request: {
-      // New request headers
-      headers,
-    },
-  });
+  if (!res) {
 
+    if (
+      request.nextUrl.pathname == "/login" ||
+      request.nextUrl.pathname == "/signup"
+    ) {
+      return NextResponse.next({
+        request: {
+          // New request headers
+          headers,
+        },
+      });
+    }
+
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   return NextResponse.next({
@@ -37,4 +44,3 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|login|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
-
