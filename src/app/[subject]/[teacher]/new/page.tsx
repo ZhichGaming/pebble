@@ -3,13 +3,17 @@ import integrateConcepts from "@/lib/integrateConcepts";
 import { Concept } from "@/lib/mongodb/schema";
 import { runVisionOCRFromBuffer } from "@/lib/ocr";
 import processNotes from "@/lib/processNotes";
-import { uploadConcept } from "@/lib/upload/actions";
+import { addConceptToSubject, uploadConcept } from "@/lib/upload/actions";
 
-export default function NewPage() {
-  return <NewNote synchronizeConcepts={synchronizeConcepts} processImage={processImage} />;
+export default function NewPage({
+  params
+}: {
+  params: Promise<{ subject: string; teacher: string }>;
+}) {
+  return <NewNote params={params} synchronizeConcepts={synchronizeConcepts} processImage={processImage} />;
 }
 
-async function synchronizeConcepts(text: string) {
+async function synchronizeConcepts(text: string, subject: string, teacher: string) {
   "use server";
 
   const concepts = await processNotes(text);
@@ -19,7 +23,8 @@ async function synchronizeConcepts(text: string) {
   const synced = await integrateConcepts(currentConcepts, concepts);
 
   for (const concept of synced) {
-    uploadConcept(concept);
+    await uploadConcept(concept);
+    addConceptToSubject(subject, teacher, concept.name);
   }
 
   return concepts;

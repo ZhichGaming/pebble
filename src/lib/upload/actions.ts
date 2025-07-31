@@ -1,5 +1,6 @@
 import client from "@/lib/mongodb/client";
 import { Concept } from "../mongodb/schema";
+import { ObjectId } from "mongodb";
 
 export async function uploadImage(image: string) {
   const res = await client.db("public").collection("images").insertOne({
@@ -34,3 +35,22 @@ export async function uploadConcept(concept: Omit<Concept, "_id">) {
   return res.insertedId;
 }
 
+export async function addConceptToSubject(subjectName: string, teacherName: string, conceptName: string) {
+  const subject = await client.db("public").collection("subjects").findOne({ name: subjectName });
+  
+  if (!subject) {
+    throw new Error("Subject not found");
+  }
+
+  await client.db("public").collection("subjects").updateOne(
+    { _id: subject._id },
+    {
+      $addToSet: {
+        "teachers.$[teacher].concepts": conceptName,
+      },
+    },
+    {
+      arrayFilters: [{ "teacher.name": teacherName }],
+    }
+  );
+}

@@ -1,25 +1,32 @@
 "use client";
 
-import { SyntheticEvent, useEffect, useState } from "react";
+import { SyntheticEvent, use, useState } from "react";
 
 import SingleFileUploader from "./upload";
 import { Concept } from "@/lib/mongodb/schema";
 
 export default function NewNote({
+  params,
   synchronizeConcepts,
   processImage,
 }: {
+  params: Promise<{ subject: string; teacher: string }>;
   processImage: (file: File | undefined) => Promise<void | {
     text: string;
     error: string;
   }>;
-  synchronizeConcepts: (text: string) => Promise<Concept[]>;
+  synchronizeConcepts: (
+    text: string,
+    subject: string,
+    teacher: string
+  ) => Promise<Concept[]>;
 }) {
   const [file, setFile] = useState<File>();
   const [loading, setLoading] = useState(false);
   const [concepts, setConcepts] = useState<Concept[]>([]);
 
   const [text, setText] = useState<string>("");
+  const { subject, teacher } = use(params);
 
   const handleProcess = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -40,7 +47,7 @@ export default function NewNote({
     e.preventDefault();
     setLoading(true);
 
-    const response = await synchronizeConcepts(text);
+    const response = await synchronizeConcepts(text, decodeURIComponent(subject), decodeURIComponent(teacher));
     setConcepts(response);
     setLoading(false);
   };
