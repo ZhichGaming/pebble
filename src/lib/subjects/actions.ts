@@ -45,3 +45,68 @@ export async function getConcept(name: string): Promise<string> {
   return JSON.stringify(concept);
 }
 
+export async function updateConceptExplanation(conceptId: string, explanation: string): Promise<string> {
+  const result = await client
+    .db("public")
+    .collection("concepts")
+    .updateOne(
+      { _id: new (await import("mongodb")).ObjectId(conceptId) },
+      { $set: { explanation } }
+    );
+
+  if (result.modifiedCount === 0) {
+    throw new Error("Failed to update concept explanation");
+  }
+
+  return JSON.stringify({ success: true });
+}
+
+export async function addConceptExample(conceptId: string, example: string): Promise<string> {
+  const result = await client
+    .db("public")
+    .collection("concepts")
+    .updateOne(
+      { _id: new (await import("mongodb")).ObjectId(conceptId) },
+      { $push: { examples: example } } as any
+    );
+
+  if (result.modifiedCount === 0) {
+    throw new Error("Failed to add example to concept");
+  }
+
+  return JSON.stringify({ success: true });
+}
+
+export async function updateConceptExample(conceptId: string, oldExample: string, newExample: string): Promise<string> {
+  const result = await client
+    .db("public")
+    .collection("concepts")
+    .updateOne(
+      { _id: new (await import("mongodb")).ObjectId(conceptId) },
+      { $set: { "examples.$[elem]": newExample } } as any,
+      { arrayFilters: [{ "elem": oldExample }] }
+    );
+
+  if (result.modifiedCount === 0) {
+    throw new Error("Failed to update example");
+  }
+
+  return JSON.stringify({ success: true });
+}
+
+export async function deleteConceptExample(conceptId: string, example: string): Promise<string> {
+  const result = await client
+    .db("public")
+    .collection("concepts")
+    .updateOne(
+      { _id: new (await import("mongodb")).ObjectId(conceptId) },
+      { $pull: { examples: example } } as any
+    );
+
+  if (result.modifiedCount === 0) {
+    throw new Error("Failed to delete example");
+  }
+
+  return JSON.stringify({ success: true });
+}
+

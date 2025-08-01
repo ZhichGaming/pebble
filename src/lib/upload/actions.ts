@@ -1,6 +1,5 @@
 import client from "@/lib/mongodb/client";
 import { Concept } from "../mongodb/schema";
-import { ObjectId } from "mongodb";
 
 export async function uploadImage(image: string) {
   const res = await client.db("public").collection("images").insertOne({
